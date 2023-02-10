@@ -1,9 +1,32 @@
 import { format } from "date-fns";
 import React from "react";
 
-const BookingModal = ({ treatment, selectedDate }) => {
+const BookingModal = ({ treatment, setTreatment, selectedDate }) => {
   const { name, slots } = treatment;
   const date = format(selectedDate, "PP");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const date = form.date.value;
+    const name = form.name.value;
+    const email = form.email.value;
+    const phone = form.phone.value;
+    const slot = form.slot.value;
+
+    const booking = {
+      appointmentDate: date,
+      patient: name,
+      email,
+      phone,
+      slot,
+      treatment: treatment.name,
+    };
+    console.log(booking);
+
+    // when database received the booking data it will close the modal.
+    setTreatment(null);
+  };
 
   return (
     <>
@@ -17,29 +40,38 @@ const BookingModal = ({ treatment, selectedDate }) => {
             ✕
           </label>
           <h3 className="text-lg font-bold">{name}</h3>
-          <form className="grid grid-cols-1 gap-4 mt-8">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 mt-8">
             <input
+              name="date"
               type="text"
               disabled
               value={date}
               className="input input-bordered w-full"
             />
-            <select className="select select-bordered w-full">
-              {slots.map((slot) => (
-                <option value={slot}>{slot}</option>
+            <select name="slot" className="select select-bordered w-full">
+              {slots.map((slot, i) => (
+                <option key={i} value={slot}>
+                  {slot}
+                </option>
               ))}
             </select>
             <input
+              required
+              name="name"
               type="text"
               placeholder="Full Name"
               className="input input-bordered w-full"
             />
             <input
+              required
+              name="phone"
               type="number"
               placeholder="Phone Number"
               className="input input-bordered w-full"
             />
             <input
+              required
+              name="email"
               type="email"
               placeholder="Email"
               className="input input-bordered w-full"
