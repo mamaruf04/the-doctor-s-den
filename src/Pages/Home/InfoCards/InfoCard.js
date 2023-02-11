@@ -2,7 +2,7 @@ import React from "react";
 
 const InfoCard = ({ card }) => {
   const { name, description, icon , bgColor} = card;
-  console.log(card);
+  // console.log(card);
   return (
     <div className={`card p-6  text-white md:card-side bg-base-300 shadow-xl ${bgColor}`}>
       <figure>
