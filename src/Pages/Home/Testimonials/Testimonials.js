@@ -21,7 +21,7 @@ const Testimonials = () => {
             img: people2,
         },
         {
-            _id: 2,
+            _id: 3,
             review:"It is a long established fact that by the readable content of a lot layout. The point of using Lorem a more-or-less normal distribu to using Content here, content",
             name:"Winson Herry",
             location:"California",
@@ -42,7 +42,7 @@ const Testimonials = () => {
       </div>
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {
-            testimonials.map(testimonial => <Testimonial key={testimonial.id} testimonial={testimonial}></Testimonial>)
+            testimonials.map(testimonial => <Testimonial key={testimonial._id} testimonial={testimonial}></Testimonial>)
         }
       </div>
     </section>
