@@ -19,10 +19,10 @@ const Navbar = () => {
       <li className='font-medium'><Link to={"/"}>Home</Link></li>
       <li className='font-medium'><Link to={"/appointment"}>Appointment</Link></li>
       <li className='font-medium'><Link to={"/about"}>About</Link></li>
-      <li className='font-medium'><Link to={"/review"}>Review</Link></li>
+      {/* <li className='font-medium'><Link to={"/review"}>Review</Link></li> */}
+      <li className='font-medium'><Link to={"/dashboard"}>Dashboard</Link></li>
       { user?.uid ?
-       <>
-          <li className='font-medium'><Link to={"/dashboard"}>Dashboard</Link></li>
+       <> 
           <li className='font-medium'><button onClick={handleSignOut}>SignOut</button></li>
        </>
         : 

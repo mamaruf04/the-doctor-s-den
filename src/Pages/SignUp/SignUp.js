@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const SignUp = () => {
   const {register, handleSubmit, formState: { errors }} = useForm();
   const {createUser, updateUser} = useContext(AuthContext);
   const [signUpError ,setSignUpError] = useState('');
-
 
     const handleSignUp = (data) => {
       setSignUpError('');
@@ -19,8 +19,10 @@ const SignUp = () => {
           displayName: data.name
         }
         updateUser(updateUserInfo)
-        .then(res => {})
-        toast.success('SignUp successful!')
+        .then(res => {
+          toast.success('SignUp successful!')
+        })
+        
       })
       .catch(err => {
         console.log(err.message)
@@ -97,7 +99,7 @@ const SignUp = () => {
         </form>
         <p className="my-2 text-sm text-center">Already have an account?<Link to={'/login'} className="text-primary"> Login</Link></p>
       <div className="divider">OR</div>
-      <button className="btn btn-outline w-full">CONTINUE WITH GOOGLE</button>
+      <SocialLogin></SocialLogin>
       </div>
     </section>
     );

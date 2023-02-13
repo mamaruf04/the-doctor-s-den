@@ -1,20 +1,28 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider";
+import SocialLogin from "../SocialLogin/SocialLogin";
+
+
 const Login = () => {
-  const {register, handleSubmit, formState: { errors }} = useForm();
-  const {signIn} = useContext(AuthContext);
+  const {register, watch, handleSubmit, formState: { errors}} = useForm();
+  const {signIn, resetPassword} = useContext(AuthContext);
   const [signInError ,setSignInError] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
+
+  
 
   const handleSignIn = (data) => {
     console.log(data);
     setSignInError('');
     signIn(data.email, data.password)
     .then(res => {
-      console.log(res.user);
       toast.success('Login successfully!')
+        navigate(from, { replace: true });
     })
     .catch(err => {
       console.log(err.message)
@@ -22,6 +30,18 @@ const Login = () => {
       toast.error(err.message)
     })
   };
+
+  const HandlePasswordReset = () => {
+    const resetPassEmail = watch("email");
+    resetPassword(resetPassEmail)
+    .then(res => {
+      console.log(res);
+      toast.success('Email send successfully! Please check your mail.')
+    })
+    .catch(err => {
+      toast.error(err.message)
+    })
+  }
 
 
   return (
@@ -34,6 +54,7 @@ const Login = () => {
               <span className="label-text">Email</span>
             </label>
             <input
+              onChange={(e) => console.log(e)}
               type="email"
               className="input input-bordered w-full "
               {...register("email", { required: "Email address is required" })}
@@ -65,7 +86,7 @@ const Login = () => {
               </span>
             )}
             <label className="label">
-              <span className="label-text-alt">Forget Password?</span>
+              <Link onClick={HandlePasswordReset} className="label-text-alt">Forget Password?</Link>
             </label>
           </div>
 
@@ -86,7 +107,7 @@ const Login = () => {
           </Link>
         </p>
         <div className="divider">OR</div>
-        <button className="btn btn-outline w-full">CONTINUE WITH GOOGLE</button>
+        <SocialLogin></SocialLogin>
       </div>
     </section>
   );
